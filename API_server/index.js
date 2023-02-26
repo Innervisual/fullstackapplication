@@ -1,28 +1,44 @@
 const express = require("express");
-
+const axios = require("axios");
 const app = express();
 
-app.post("/todo", (req, res) => {
-    // Handle the request to create a new to-do item
-  });
-  
-
-  app.listen(3000, () => {
-    console.log("API server is listening on port 3000");
-  });
-  
-  const axios = require("axios");
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
 
 app.post("/todo", (req, res) => {
-  // Send the request to the backend service
-  axios.post("http://backend-service/todo", req.body)
+  axios.post("http://localhost:3000/todo", req.body)
     .then(response => {
-      // Return the response from the backend service to the frontend
       res.send(response.data);
     })
-    .catch(error => {
-      // Handle any errors that occurred during the request
-      console.error(error);
+    .catch(err => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+app.listen(3002, () => {
+  console.log("API server is listening on port 3002");
+});
+
+app.get("/todo", (req, res) => {
+  axios.get("http://backend-service/todo")
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+app.post("/todo", (req, res) => {
+  axios.post("http://backend-service/todo", req.body)
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(err => {
+      console.error(err);
       res.sendStatus(500);
     });
 });
