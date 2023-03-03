@@ -1,0 +1,14 @@
+node:internal/modules/cjs/loader:942
+  throw err;
+  ^
+
+Error: Cannot find module 'C:\Users\jp_mo\OneDrive\Desktop\Cloud Native Computing\fullstackapplication\index.js'
+    at Module._resolveFilename (node:internal/modules/cjs/loader:939:15)
+    at Module._load (node:internal/modules/cjs/loader:780:27)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:77:12)
+    at node:internal/main/run_main_module:17:47 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v18.0.0

@@ -7,7 +7,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.post("/todo", (req, res) => {
+/*app.post("/todo", (req, res) => {
   axios.post("http://localhost:3000/todo", req.body)
     .then(response => {
       res.send(response.data);
@@ -17,13 +17,13 @@ app.post("/todo", (req, res) => {
       res.sendStatus(500);
     });
 });
-
+*/
 app.listen(3002, () => {
   console.log("API server is listening on port 3002");
 });
 
 app.get("/todo", (req, res) => {
-  axios.get("http://backend-service/todo")
+  axios.get("http://localhost:5000/todos")
     .then(response => {
       res.send(response.data);
     })
@@ -32,7 +32,7 @@ app.get("/todo", (req, res) => {
       res.sendStatus(500);
     });
 });
-app.post("/todo", (req, res) => {
+/*app.post("/todo", (req, res) => {
   axios.post("http://backend-service/todo", req.body)
     .then(response => {
       res.send(response.data);
@@ -42,3 +42,4 @@ app.post("/todo", (req, res) => {
       res.sendStatus(500);
     });
 });
+*/
