@@ -2,7 +2,11 @@
 
 This is a fullstack app "Todo" built with a frontend React framework (https://create-react-app.dev) and a backend REST API built with a framework Node.js and Express.
 
+It is available at github:
 
+https://github.com/Innervisual/fullstackapplication
+
+The app is a todo list, where you can add items and delete items.
 
 Docker frontend image (todo-frontend) and backend image (todo-backend) and container (fullstackjeep).
 
