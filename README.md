@@ -8,6 +8,21 @@ https://github.com/Innervisual/fullstackapplication
 
 The app is a todo list, where you can add items and delete items.
 
+Instruction on how to run the application:
+-----------------------------------------
+
+1-Unpack the zip file to desired location in you computer.
+2-Open a terminal and navigate to the folder "fullstackapplication by using "cd" and "ls" commands.
+3-Start the frontend -> in a terminal, navigate to the folder "fullstackjp" using "cd" and "ls" commands, and then use command "npm start" - press "Ctrl" and "c" and press "y" to stop.
+
+5.You should now se a webpage with three items already posted "Learn about React", "Meet friend for lunch" and "Build really cool to-do app" and here you can start adding items. 
+
+6-Start the backend -> in a terminal, navigate to the folder "todo-backend" using "cd" and "ls" commands, and then use command "npm start" - press "Ctrl" and "c" and press "y" to stop.
+
+7.When running, add items and delete items as you process them, refresh the page when you want to start again.
+
+------------------------------------------
+
 Docker frontend image (todo-frontend) and backend image (todo-backend) and container (fullstackjeep).
 
 <img width="1054" alt="image" src="https://user-images.githubusercontent.com/98667242/222714216-3e52fd0c-8f7d-4c36-9904-6fd564747e21.png">
