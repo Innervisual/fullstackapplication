@@ -1,5 +1,10 @@
-# Use an official Node.js runtime as the base image
-FROM node:14
-
-# Set the working directory
+FROM node:22-slim
 WORKDIR /app
+COPY package*.json ./
+RUN npm ci --ignore-scripts
+COPY public ./public
+COPY src ./src
+RUN chown -R node:node /app
+USER node
+EXPOSE 3000
+CMD ["npm", "start"]

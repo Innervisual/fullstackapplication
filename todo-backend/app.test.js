@@ -1,0 +1,33 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const createApp = require('./app');
+test('task lifecycle, validation and persistence', async t => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'todo-test-'));
+  const file = path.join(directory, 'todos.json');
+  const server = createApp(file).listen(0, '127.0.0.1');
+  await new Promise(resolve => server.once('listening', resolve));
+  t.after(() => { server.close(); fs.rmSync(directory, { recursive: true, force: true }); });
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const send = (url, method, body) => fetch(base + url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  assert.equal((await (await fetch(base + '/todos')).json()).length, 3);
+  assert.equal((await send('/todos', 'POST', { text: '   ' })).status, 400);
+  const response = await send('/todos', 'POST', { text: ' Test task ' });
+  assert.equal(response.status, 201);
+  const todo = await response.json();
+  assert.equal(todo.text, 'Test task');
+  assert.equal((await send('/todos/' + todo.id, 'PATCH', { completed: 'yes' })).status, 400);
+  assert.equal((await (await send('/todos/' + todo.id, 'PATCH', { completed: true })).json()).completed, true);
+  assert.equal(JSON.parse(fs.readFileSync(file)).find(item => item.id === todo.id).completed, true);
+  // A fresh app must read exactly the same persisted list.
+  const restarted = createApp(file).listen(0, '127.0.0.1');
+  await new Promise(resolve => restarted.once('listening', resolve));
+  t.after(() => restarted.close());
+  const reloaded = await (await fetch(`http://127.0.0.1:${restarted.address().port}/todos`)).json();
+  assert.equal(reloaded.find(item => item.id === todo.id).completed, true);
+  assert.equal((await send('/todos/' + todo.id, 'DELETE')).status, 204);
+  assert.equal((await send('/todos/' + todo.id, 'DELETE')).status, 404);
+  assert.equal((await (await fetch(base + '/todos')).json()).length, 3);
+});

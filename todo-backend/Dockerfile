@@ -1,20 +1,12 @@
-# Use an official Node.js runtime as the base image
-FROM node:14
-
-# Set the working directory
+FROM node:22-slim
 WORKDIR /app
-
-# Copy the package.json and package-lock.json files
 COPY package*.json ./
-
-# Install the project dependencies
-RUN npm install
-
-# Copy the rest of the application code
-COPY . .
-
-# Expose port 5000 for the application
+RUN npm ci --omit=dev --ignore-scripts
+COPY app.js ./
+COPY bin ./bin
+COPY routes ./routes
+RUN mkdir -p data && chown -R node:node /app
+USER node
+ENV HOST=0.0.0.0
 EXPOSE 5000
-
-# Specify the command to run when the container starts
-CMD [ "npm", "start" ]
+CMD ["npm", "start"]
